@@ -65,7 +65,9 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
       if (error) throw error;
       toast.success('Đăng nhập thành công!');
       handleClose();
-      window.location.reload();
+      setTimeout(() => {
+        router.push("/");
+      }, 300);
     } catch (err: unknown) {
       const error = err as { message?: string };
       toast.error(error.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
@@ -117,8 +119,10 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
       }
 
       toast.success('Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.');
-      handleClose();
-      window.location.reload();
+      handleClose();   
+      setTimeout(() => {
+        router.push("/");
+      }, 300);
     } catch (err: unknown) {
       const error = err as { message?: string };
       toast.error(error.message || 'Đăng ký thất bại. Vui lòng thử lại.');
