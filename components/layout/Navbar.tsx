@@ -56,7 +56,7 @@ export default function Navbar() {
   const handleSignOut = async () => {
     await signOut();
     toast.success('Đã đăng xuất thành công');
-    window.location.href = '/';
+    router.push("/");
   };
 
   return (
