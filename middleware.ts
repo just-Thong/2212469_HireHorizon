@@ -44,7 +44,7 @@ export async function middleware(request: NextRequest) {
   );
 
   // Refresh auth token - important for SSR
-  await supabase.auth.getUser();
+  await supabase.auth.getSession();
 
   return supabaseResponse;
 }
