@@ -318,7 +318,7 @@ export default function PostJobPage() {
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">Chọn tối đa 10 kỹ năng. Nếu không có trong danh sách, hãy nhập và nhấn "+"</p>
+              <p className="text-xs text-muted-foreground mt-1">Nếu không có trong danh sách, hãy nhập và nhấn &quot;+&quot;</p>
             </div>
             {form.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
