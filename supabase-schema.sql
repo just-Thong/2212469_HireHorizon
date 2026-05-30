@@ -108,6 +108,11 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.job_postings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.applications ENABLE ROW LEVEL SECURITY;
 
+-- Bỏ constraint cũ (nếu có)
+ALTER TABLE public.profiles DROP CONSTRAINT IF EXISTS profiles_role_check;
+ALTER TABLE public.profiles ADD CONSTRAINT profiles_role_check CHECK (role IN ('candidate', 'recruiter', 'admin'));
+
+
 -- PROFILES policies
 CREATE POLICY "Profiles are viewable by everyone"
   ON public.profiles FOR SELECT USING (true);
@@ -161,7 +166,17 @@ CREATE POLICY "Recruiters can update application status"
       WHERE id = job_id AND recruiter_id = auth.uid()
     )
   );
+-- Cho phép Admin quản lý (xóa, sửa) mọi bài đăng công việc
+CREATE POLICY "Admins can manage all job postings"
+  ON public.job_postings FOR ALL USING (
+    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
+  );
 
+-- Cho phép Admin quản lý cả các đơn ứng tuyển
+CREATE POLICY "Admins can delete all applications"
+  ON public.applications FOR DELETE USING (
+    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
+  );
 -- ============================================================
 -- STORAGE BUCKET cho CV upload
 -- ============================================================
